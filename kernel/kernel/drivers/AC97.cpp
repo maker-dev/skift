@@ -9,6 +9,7 @@ AC97::AC97(DeviceAddress address) : PCIDevice(address, DeviceClass::SOUND)
     // set values
     _volume_PCM = AC97_PCM_OUT_VOLUME;
     _volume_master = AC97_MASTER_VOLUME;
+    _sample_rate = AC97_PLAYBACK_SPEED;
 
     // get native audio bus master bar and native audio mixer bar
     nabmbar = bar(1).base();
@@ -54,9 +55,9 @@ AC97::AC97(DeviceAddress address) : PCIDevice(address, DeviceClass::SOUND)
     out16(nambar + AC97_EXT_AUDIO_STC, in16(nambar + AC97_EXT_AUDIO_STC) | 1);
     task_sleep(scheduler_running(), 10);
 
-    // General Sample rate: 44100 Hz
-    out16(nambar + AC97_FRONT_SPLRATE, AC97_PLAYBACK_SPEED);
-    out16(nambar + AC97_LR_SPLRATE, AC97_PLAYBACK_SPEED);
+    // General Sample rate: 48000 Hz
+    out16(nambar + AC97_FRONT_SPLRATE, _sample_rate);
+    out16(nambar + AC97_LR_SPLRATE, _sample_rate);
 
     out8(nabmbar + AC97_PO_CR, in8(nabmbar + AC97_PO_CR) | AC97_X_CR_RPBM);
 
@@ -137,8 +138,27 @@ ResultOr<size_t> AC97::write(size64_t offset, const void *buffer, size_t size)
 
 Result AC97::call(IOCall request, void *args)
 {
-    UNUSED(request);
-    UNUSED(args);
+    if (request == IOCALL_SOUND_GET_STATE)
+    {
+        IOCallSoundStateArgs *state = (IOCallSoundStateArgs *)args;
+        state->sample_rate = _sample_rate;
+        state->volume_PCM = _volume_PCM;
+        state->volume_master = _volume_master;
+
+        return SUCCESS;
+    }
+    else if (request == IOCALL_SOUND_SET_SAMPLERATE)
+    {
+        IOCallSoundStateArgs *state = (IOCallSoundStateArgs *)args;
+        _sample_rate = state->sample_rate;
+        out16(nambar + AC97_FRONT_SPLRATE, _sample_rate);
+        out16(nambar + AC97_LR_SPLRATE, _sample_rate);
+        // set last valid index
+        _last_valid_index = 0;
+        out8(nabmbar + AC97_PO_LVI, _last_valid_index);
+        out8(nabmbar + AC97_PO_CR, in8(nabmbar + AC97_PO_CR) | AC97_X_CR_RPBM);
+        return SUCCESS;
+    }
 
     return ERR_INAPPROPRIATE_CALL_FOR_DEVICE;
 }

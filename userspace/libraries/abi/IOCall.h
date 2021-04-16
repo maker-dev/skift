@@ -14,6 +14,12 @@ struct IOCallDisplayModeArgs
     int height;
 };
 
+struct IOCallSoundStateArgs
+{
+    int sample_rate;
+    int volume_PCM;
+    int volume_master;
+};
 struct IOCallDisplayBlitArgs
 {
     uint32_t *buffer;
@@ -61,6 +67,9 @@ enum IOCall
     IOCALL_TEXTMODE_SET_STATE,
 
     IOCALL_NETWORK_GET_STATE,
+
+    IOCALL_SOUND_GET_STATE,
+    IOCALL_SOUND_SET_SAMPLERATE,
 
     __IOCALL_COUNT,
 };

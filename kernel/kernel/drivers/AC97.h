@@ -91,6 +91,7 @@ private:
 
     uint16_t _volume_PCM;
     uint16_t _volume_master;
+    uint16_t _sample_rate;
 
     void initialise_buffers();
 

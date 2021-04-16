@@ -1,4 +1,5 @@
 UTILITIES = \
+	APLAY \
 	BASENAME \
 	CAT \
 	CLEAR \
@@ -31,6 +32,7 @@ UTILITIES = \
 	PWD	\
 	RMDIR \
 	SETTINGSCTL \
+	SOUNDCTL \
 	SYSFETCH \
 	TAC \
 	TOUCH \
@@ -41,6 +43,9 @@ UTILITIES = \
 	UPTIME \
 	YES \
 	ZIP
+
+APLAY_LIBS = audio
+APLAY_NAME = aplay
 
 BASENAME_LIBS = system io
 BASENAME_NAME = basename
@@ -161,6 +166,9 @@ POWERCTL_NAME = powerctl
 
 SETTINGSCTL_LIBS = settings async system io
 SETTINGSCTL_NAME = settingsctl
+
+SOUNDCTL_LIBS = 
+SOUNDCTL_NAME = soundctl
 
 WALLPAPERCTL_LIBS = graphic system io
 WALLPAPERCTL_NAME = wallpaperctl

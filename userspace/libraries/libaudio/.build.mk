@@ -1,0 +1,3 @@
+LIBS += AUDIO
+
+AUDIO_NAME = audio

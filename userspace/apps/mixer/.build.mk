@@ -1,0 +1,4 @@
+APPS += MIXER
+
+MIXER_NAME = mixer
+MIXER_LIBS = 

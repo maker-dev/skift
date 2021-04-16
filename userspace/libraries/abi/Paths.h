@@ -2,6 +2,8 @@
 
 #define DEVICE_PATH "/Devices"
 
+#define SOUND_DEVICE_PATH DEVICE_PATH "/sound"
+
 #define KEYBOARD_DEVICE_PATH DEVICE_PATH "/keyboard"
 
 #define MOUSE_DEVICE_PATH DEVICE_PATH "/mouse"
