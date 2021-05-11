@@ -106,7 +106,7 @@ public:
         _size = 0;
         _position = 0;
 
-        return make<SliceStorage>(ADOPT, (void *)result, size);
+        return make<SliceStorage>(ADOPT, result, size);
     }
 
     ResultOr<size_t> write(uint8_t v)

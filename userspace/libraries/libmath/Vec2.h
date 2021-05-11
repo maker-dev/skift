@@ -24,6 +24,9 @@ public:
     ALWAYS_INLINE const Scalar &x() const { return _x; }
     ALWAYS_INLINE const Scalar &y() const { return _y; }
 
+    ALWAYS_INLINE Scalar &x() { return _x; }
+    ALWAYS_INLINE Scalar &y() { return _y; }
+
     ALWAYS_INLINE double length() const
     {
         return sqrt(_x * _x + _y * _y);

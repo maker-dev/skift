@@ -9,7 +9,7 @@ class SliceStorage final :
     public Storage
 {
 private:
-    void *_data = nullptr;
+    uint8_t *_data = nullptr;
     size_t _size = 0;
     bool _owned = false;
 
@@ -24,27 +24,27 @@ public:
     SliceStorage(size_t size)
     {
         _owned = true;
-        _data = malloc(size);
+        _data = new uint8_t[size];
         _size = size;
     }
 
-    SliceStorage(AdoptTag, void *data, size_t size)
+    SliceStorage(AdoptTag, uint8_t *data, size_t size)
     {
         _data = data;
         _size = size;
         _owned = true;
     }
 
-    SliceStorage(WrapTag, void *data, size_t size)
+    SliceStorage(WrapTag, uint8_t *data, size_t size)
     {
         _data = data;
         _size = size;
         _owned = false;
     }
 
-    SliceStorage(CopyTag, void *data, size_t size)
+    SliceStorage(CopyTag, uint8_t *data, size_t size)
     {
-        _data = malloc(size);
+        _data = new uint8_t[size];
         memcpy(_data, data, size);
         _size = size;
         _owned = false;
@@ -59,7 +59,7 @@ public:
 
         if (_owned)
         {
-            free(_data);
+            delete[] _data;
         }
 
         _data = nullptr;

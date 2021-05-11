@@ -4,6 +4,7 @@
 
 #include <libmath/MinMax.h>
 #include <libutils/Assert.h>
+#include <libutils/Iteration.h>
 
 template <typename T, size_t N>
 class Array
@@ -87,23 +88,6 @@ public:
         return true;
     }
 
-    // Array iteration
-    class iterator
-    {
-    public:
-        iterator(T *ptr) : _ptr(ptr) {}
-        iterator operator++()
-        {
-            ++_ptr;
-            return *this;
-        }
-        bool operator!=(const iterator &other) const { return _ptr != other._ptr; }
-        const T &operator*() const { return *_ptr; }
-
-    private:
-        T *_ptr;
-    };
-
-    constexpr iterator begin() const { return iterator(_storage); }
-    constexpr iterator end() const { return iterator(_storage + N); }
+    Utils::ContiguousIterator<T> begin() const { return {_storage}; }
+    Utils::ContiguousIterator<T> end() const { return {_storage + N}; }
 };

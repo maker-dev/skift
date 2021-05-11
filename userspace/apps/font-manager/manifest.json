@@ -1,0 +1,6 @@
+{
+    "name": "Font manager",
+    "comment": "An application to view and install fonts.",
+    "icon": "font-format",
+    "command": "font-manager"
+}

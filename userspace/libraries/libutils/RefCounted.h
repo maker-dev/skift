@@ -71,7 +71,7 @@ T *ref_if_not_null(T *ptr)
 template <typename T>
 T *deref_if_not_null(T *ptr)
 {
-    if (ptr)
+    if (ptr != nullptr)
     {
         ptr->deref();
     }
